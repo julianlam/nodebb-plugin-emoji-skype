@@ -1,0 +1,11 @@
+{
+    "id": "nodebb-plugin-emoji-skype",
+    "name": "NodeBB Skype Emoji",
+    "description": "Skype Emoji for NodeBB",
+    "url": "https://github.com/julianlam/nodebb-plugin-emoji-skype",
+    "library": "./index.js",
+    "staticDir": "assets",
+    "hooks": [
+        { "hook": "filter:post.parse", "method": "addEmoji" }
+    ]
+}
