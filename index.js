@@ -199,7 +199,7 @@ var	Emoji = {
 		},
 		addEmoji: function(postContent) {
 			var	_self = this,
-				newContent = postContent.replace(/(:[\-=]?.|\([\w]+\))/g, function(match) {
+				newContent = postContent.replace(/(:..?|\([\w]+\))/g, function(match) {
 					return _self.mapping[match] ? '<img src="' + nconf.get('relative_path') + '/plugins/nodebb-plugin-emoji-skype/' + _self.mapping[match] + '.gif" />' : match;
 				});
 
