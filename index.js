@@ -136,7 +136,8 @@ var	Emoji = {
 			"(Y)": "yes",
 			"(ok)": "yes",
 			"(n)": "no",
-			"(n)": "no",
+			"(N)": "no",
+			"(no)": "no",
 			"(handshake)": "handshake",
 			"(skype)": "skype",
 			"(ss)": "skype",
@@ -206,7 +207,7 @@ var	Emoji = {
 		},
 		addEmoji: function(postContent) {
 			var	_self = this,
-				newContent = postContent.replace(/\([\w~]+\)|\\[:]?[od]\/|[:;\|\w\(\)\]>][=\-"^:]?[)>$&|\w\(\)*@#?]?[)>$&|\w\(\)*@#?]/g, function(match) {
+				newContent = postContent.replace(/\([\w~]+\)|\\[:]?[od]\/|[:;\|bBiIxX8\(\)\]>][=\-"^:]?[)>$&|\w\(\)*@#?]?[)>$&|\w\(\)*@#?]/g, function(match) {
 					return _self.mapping[match] ? '<img src="' + nconf.get('relative_path') + '/plugins/nodebb-plugin-emoji-skype/' + _self.mapping[match] + '.gif" />' : match;
 				});
 
