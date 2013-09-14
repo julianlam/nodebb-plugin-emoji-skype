@@ -16,7 +16,7 @@
     "skype"
   ],
   "author": "Julian Lam <julian@designcreateplay.com>",
-  "license": "CC BY-SA 2.5",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/julianlam/nodebb-plugin-emoji-skype/issues"
   }

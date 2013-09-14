@@ -22,6 +22,13 @@ var	Emoji = {
 			";)": "wink",
 			";=)": "wink",
 			";-)": "wink",
+			":O": "surprised",
+			":-O": "surprised",
+			":=O": "surprised",
+			":o": "surprised",
+			":-o": "surprised",
+			":=o": "surprised",
+			"(surprised)": "surprised",
 			";(": "crying",
 			";-(": "crying",
 			";=(": "crying",
@@ -199,7 +206,7 @@ var	Emoji = {
 		},
 		addEmoji: function(postContent) {
 			var	_self = this,
-				newContent = postContent.replace(/(:..?|\([\w]+\))/g, function(match) {
+				newContent = postContent.replace(/\([\w~]+\)|\\[:]?[od]\/|[:;\|\w\(\)\]>][=\-"^:]?[)>$&|\w\(\)*@#?]?[)>$&|\w\(\)*@#?]/g, function(match) {
 					return _self.mapping[match] ? '<img src="' + nconf.get('relative_path') + '/plugins/nodebb-plugin-emoji-skype/' + _self.mapping[match] + '.gif" />' : match;
 				});
 
