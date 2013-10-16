@@ -1,4 +1,5 @@
-var	Emoji = {
+var	nconf = module.parent.require('nconf'),
+	Emoji = {
 		mapping: {
 			":)": "smile",
 			":=)": "smile",
