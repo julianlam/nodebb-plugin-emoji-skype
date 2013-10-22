@@ -209,8 +209,9 @@ var	nconf = module.parent.require('nconf'),
 		},
 		addEmoji: function(postContent) {
 			var	_self = this,
-				newContent = postContent.replace(/\([\w~]+\)|\\[:]?[od]\/|[:;\|bBiIxX8\(\)\]>][=\-"^:]?[)>$&|\w\(\)*@#?]?[)>$&|\w\(\)*@#?]/g, function(match) {
-					return _self.mapping[match] ? '<img src="' + nconf.get('relative_path') + '/plugins/nodebb-plugin-emoji-skype/' + _self.mapping[match] + '.gif" />' : match;
+				newContent = postContent.replace(/&gt;:\)|\([\w~]+\)|\\[:]?[od]\/|[:;\|bBiIxX8\(\)\]][=\-"^:]?[)>$&|\w\(\)*@#?]?[)>$&|\w\(\)*@#?]/g, function(match) {
+					match = match.replace('&gt;', '>');
+					return _self.mapping[match] ? '<img class="nodebb-plugin-emoji-skype" src="' + nconf.get('relative_path') + '/plugins/nodebb-plugin-emoji-skype/' + _self.mapping[match] + '.gif" />' : match;
 				});
 
 			return newContent;
