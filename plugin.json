@@ -9,6 +9,6 @@
     	"style.css"
     ],
     "hooks": [
-        { "hook": "filter:post.parse", "method": "addEmoji" }
+        { "hook": "filter:post.parse", "method": "parse", "priority": 10 }
     ]
 }
