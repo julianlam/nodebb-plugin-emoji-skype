@@ -1,4 +1,5 @@
 var	nconf = module.parent.require('nconf'),
+
 	Emoji = {
 		mapping: {
 			":)": "smile",
@@ -182,7 +183,6 @@ var	nconf = module.parent.require('nconf'),
 			"(dance)": "dance",
 			"\\o/": "dance",
 			"\\:d/": "dance",
-			"\\:d/": "dance",
 			"(ninja)": "ninja",
 			"(*)": "star",
 			"(mooning)": "mooning",
@@ -207,16 +207,41 @@ var	nconf = module.parent.require('nconf'),
 			"(tauri)": "tauri",
 			"(priidu)": "priidu"
 		},
-		addEmoji: function(postContent) {
-			var	_self = this,
-				newContent = postContent.replace(/&gt;:\)|\([\w~]+\)|\\[:]?[od]\/|[:;\|bBiIxX8\(\)\]][=\-"^:]?[)>$&|\w\(\)*@#?]?[)>$&|\w\(\)*@#?]/g, function(match) {
-					match = match.replace('&gt;', '>');
-					return _self.mapping[match] ? 
-						'<img class="nodebb-plugin-emoji-skype" src="' + 
-						nconf.get('relative_path') + '/plugins/nodebb-plugin-emoji-skype/' + 
-						_self.mapping[match] + '.gif" title="' + match + '"/>' : match;
-				});
 
+		pattern: /&gt;:\)|\([\w~]+\)|\\[:]?[od]\/|[:;\|bBiIxX8\(\)\]][=\-"^:]?[)>$&|\w\(\)*@#?]?[)>$&|\w\(\)*@#?]/g,
+
+		parse: function(content) {
+			var _self = this, co = -1, ce = 0, start = 0, result = '';
+			content = content || '';
+
+			while (ce !== -1) {
+				co = content.indexOf('<code', ce);
+				if (co > -1) {
+					result += _self.replace(content.substring(start, co));
+					start = co + 1;
+					ce = content.indexOf('</code>', co + 6);
+					if (ce > -1) {
+						start = ce + 7;
+						ce = start;
+						result += content.substring(co, ce);
+					}
+				} else {
+					ce = -1;
+				}
+			}
+			result += this.replace(content.substring(start));
+			return result;
+		},
+
+		replace: function(content){
+			var _self = this,
+				newContent = content.replace(this.pattern, function(match) {
+					match = match.replace('&gt;', '>');
+					return _self.mapping[match] ?
+						'<img class="nodebb-plugin-emoji-skype" src="' +
+							nconf.get('relative_path') + '/plugins/nodebb-plugin-emoji-skype/' +
+							_self.mapping[match] + '.gif" title="' + match + '"/>' : match;
+				});
 			return newContent;
 		}
 	};

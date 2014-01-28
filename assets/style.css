@@ -1,3 +1,6 @@
 .nodebb-plugin-emoji-skype {
 	display: inline !important;
 }
+code .err {
+    border: none;
+}
