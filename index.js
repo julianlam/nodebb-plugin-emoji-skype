@@ -207,17 +207,22 @@ var	nconf = module.parent.require('nconf'),
 			"(tauri)": "tauri",
 			"(priidu)": "priidu"
 		},
-		addEmoji: function(postContent) {
-			var	_self = this,
-				newContent = postContent.replace(/&gt;:\)|\([\w~]+\)|\\[:]?[od]\/|[:;\|bBiIxX8\(\)\]][=\-"^:]?[)>$&|\w\(\)*@#?]?[)>$&|\w\(\)*@#?]/g, function(match) {
+		replaceOutsideOfCode: function (content, pattern, cb) {
+			return content.replace(/(^|<\/code>)([^<]*|<(?!code>))*(<code>|$)/g, function (match) {
+				return match.replace(pattern, cb);
+			});
+		},
+		addEmoji: function (postContent) {
+			var _self = this;
+			return _self.replaceOutsideOfCode(postContent,
+				/&gt;:\)|\([\w~]+\)|\\[:]?[od]\/|[:;\|bBiIxX8\(\)\]][=\-"^:]?[)>$&|\w\(\)*@#?]?[)>$&|\w\(\)*@#?]/g,
+				function (match) {
 					match = match.replace('&gt;', '>');
-					return _self.mapping[match] ? 
-						'<img class="nodebb-plugin-emoji-skype" src="' + 
-						nconf.get('relative_path') + '/plugins/nodebb-plugin-emoji-skype/' + 
+					return _self.mapping[match] ? '<img class="nodebb-plugin-emoji-skype" src="' +
+						nconf.get('relative_path') + '/plugins/nodebb-plugin-emoji-skype/' +
 						_self.mapping[match] + '.gif" title="' + match + '"/>' : match;
-				});
-
-			return newContent;
+				}
+			);
 		}
 	};
 
