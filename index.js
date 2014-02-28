@@ -219,7 +219,7 @@ var	nconf = module.parent.require('nconf'),
 				function (match) {
 					match = match.replace('&gt;', '>');
 					return _self.mapping[match] ? '<img class="nodebb-plugin-emoji-skype" src="' +
-						nconf.get('relative_path') + '/plugins/nodebb-plugin-emoji-skype/' +
+						nconf.get('relative_path') + '/plugins/nodebb-plugin-emoji-skype/icons/' +
 						_self.mapping[match] + '.gif" title="' + match + '"/>' : match;
 				}
 			);
