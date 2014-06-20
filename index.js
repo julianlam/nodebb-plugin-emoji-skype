@@ -206,24 +206,25 @@ var	nconf = module.parent.require('nconf'),
 			"(malthe)": "malthe",
 			"(tauri)": "tauri",
 			"(priidu)": "priidu"
-		},
-		replaceOutsideOfCode: function (content, pattern, cb) {
-			return content.replace(/(^|<\/code>)([^<]*|<(?!code>))*(<code>|$)/g, function (match) {
-				return match.replace(pattern, cb);
-			});
-		},
-		addEmoji: function (postContent) {
-			var _self = this;
-			return _self.replaceOutsideOfCode(postContent,
-				/&gt;:\)|\([\w~]+\)|\\[:]?[od]\/|[:;\|bBiIxX8\(\)\]][=\-"^:]?[)>$&|\w\(\)*@#?]?[)>$&|\w\(\)*@#?]/g,
-				function (match) {
-					match = match.replace('&gt;', '>');
-					return _self.mapping[match] ? '<img class="nodebb-plugin-emoji-skype" src="' +
-						nconf.get('relative_path') + '/plugins/nodebb-plugin-emoji-skype/icons/' +
-						_self.mapping[match] + '.gif" title="' + match + '"/>' : match;
-				}
-			);
 		}
+	};
+
+	Emoji.replaceOutsideOfCode = function (content, pattern, cb) {
+		return content.replace(/(^|<\/code>)([^<]*|<(?!code>))*(<code>|$)/g, function (match) {
+			return match.replace(pattern, cb);
+		});
+	};
+
+	Emoji.addEmoji = function (postContent, callback) {
+		callback(null, Emoji.replaceOutsideOfCode(postContent,
+			/&gt;:\)|\([\w~]+\)|\\[:]?[od]\/|[:;\|bBiIxX8\(\)\]][=\-"^:]?[)>$&|\w\(\)*@#?]?[)>$&|\w\(\)*@#?]/g,
+			function (match) {
+				match = match.replace('&gt;', '>');
+				return Emoji.mapping[match] ? '<img class="nodebb-plugin-emoji-skype" src="' +
+					nconf.get('relative_path') + '/plugins/nodebb-plugin-emoji-skype/icons/' +
+					Emoji.mapping[match] + '.gif" title="' + match + '"/>' : match;
+			}
+		));
 	};
 
 module.exports = Emoji;
