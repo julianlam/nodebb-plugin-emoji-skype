@@ -206,6 +206,17 @@ var	nconf = module.parent.require('nconf'),
 			"(malthe)": "malthe",
 			"(tauri)": "tauri",
 			"(priidu)": "priidu"
+		},
+		parse: function(content) {
+			return Emoji.replaceOutsideOfCode(content,
+				/&gt;:\)|\([\w~]+\)|\\[:]?[od]\/|[:;\|bBiIxX8\(\)\]][=\-"^:]?[)>$&|\w\(\)*@#?]?[)>$&|\w\(\)*@#?]/g,
+				function (match) {
+					match = match.replace('&gt;', '>');
+					return Emoji.mapping[match] ? '<img class="nodebb-plugin-emoji-skype" src="' +
+						nconf.get('relative_path') + '/plugins/nodebb-plugin-emoji-skype/icons/' +
+						Emoji.mapping[match] + '.gif" title="' + match + '"/>' : match;
+				}
+			);
 		}
 	};
 
@@ -215,16 +226,18 @@ var	nconf = module.parent.require('nconf'),
 		});
 	};
 
-	Emoji.addEmoji = function (postContent, callback) {
-		callback(null, Emoji.replaceOutsideOfCode(postContent,
-			/&gt;:\)|\([\w~]+\)|\\[:]?[od]\/|[:;\|bBiIxX8\(\)\]][=\-"^:]?[)>$&|\w\(\)*@#?]?[)>$&|\w\(\)*@#?]/g,
-			function (match) {
-				match = match.replace('&gt;', '>');
-				return Emoji.mapping[match] ? '<img class="nodebb-plugin-emoji-skype" src="' +
-					nconf.get('relative_path') + '/plugins/nodebb-plugin-emoji-skype/icons/' +
-					Emoji.mapping[match] + '.gif" title="' + match + '"/>' : match;
-			}
-		));
+	Emoji.addEmoji = function (data, callback) {
+		var parsed = '';
+
+		if (data.hasOwnProperty('postData')) {
+			data.postData.content = Emoji.parse(data.postData.content);
+		} else if (data.hasOwnProperty('userData')) {
+			data.userData.signature = Emoji.parse(data.userData.signature);
+		} else if (typeof data === 'string') {
+			data = Emoji.parse(data);
+		}
+
+		callback(null, data);
 	};
 
 module.exports = Emoji;

@@ -11,7 +11,8 @@
     	"assets/style.less"
     ],
     "hooks": [
-        { "hook": "filter:post.parse", "method": "addEmoji" }
-    ],
-    "compatibility": "~0.4.0"
+        { "hook": "filter:parse.post", "method": "addEmoji", "priority": 5 },
+        { "hook": "filter:parse.signature", "method": "addEmoji", "priority": 5 },
+        { "hook": "filter:parse.raw", "method": "addEmoji", "priority": 5 }
+    ]
 }
